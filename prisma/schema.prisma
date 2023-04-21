@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  // provider      = "prisma-dbml-generator"
+  binaryTargets = ["native"]
+  output        = "../src/trial/prisma-client-js"
+}
+
+generator dbml {
+  // provider = "prisma-client-js"
+  provider      = "prisma-dbml-generator"
+  // binaryTargets = ["native"]
+  output        = "../src/trial/dbml"
+}
+
+
+generator db_client {
+  provider        = "postgresql"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id Int @id @default(autoincrement())
+}

@@ -1,0 +1,125 @@
+type VideoThumbnail {
+  url: String
+}
+
+type ExternalUrls {
+  spotify: String
+}
+
+type ExternalIds {
+  isrc: String
+}
+
+type Artists {
+  href: String
+  id: String
+  name: String
+  type: String
+  uri: String
+  external_urls: ExternalUrls
+}
+
+type Images {
+  url: String
+  height: Int
+  width: Int
+}
+
+type Album {
+  album_type: String
+  total_tracks: Int
+  href: String
+  id: String
+  name: String
+  release_date: String
+  release_date_precision: String
+  type: String
+  uri: String
+  album_group: String
+  is_playable: Boolean
+  artists: [Artists]
+  images: [Images]
+  external_urls: ExternalUrls
+  available_markets: [String]
+}
+
+type Track {
+  disc_number: Int
+  duration_ms: Int
+  explicit: Boolean
+  href: String
+  id: String
+  name: String
+  popularity: Int
+  preview_url: String
+  track_number: Int
+  type: String
+  uri: String
+  is_local: Boolean
+  episode: Boolean
+  track: Boolean
+  external_urls: ExternalUrls
+  external_ids: ExternalIds
+  available_markets: [String]
+  artists: [Artists]
+  album: Album
+}
+
+type AddedBy {
+  href: String
+  id: String
+  type: String
+  uri: String
+  external_urls: ExternalUrls
+}
+
+type Items {
+  added_at: String
+  is_local: Boolean
+  primary_color: String
+  video_thumbnail: VideoThumbnail
+  track: Track
+  added_by: AddedBy
+}
+
+type Tracks {
+  href: String
+  limit: Int
+  next: String
+  offset: Int
+  previous: String
+  total: Int
+  items: [Items]
+}
+
+type Owner {
+  href: String
+  id: String
+  type: String
+  uri: String
+  display_name: String
+  external_urls: ExternalUrls
+}
+
+type Followers {
+  href: String
+  total: Int
+}
+
+type Playlist {
+  collaborative: Boolean
+  description: String
+  href: String
+  id: String
+  name: String
+  public: Boolean
+  snapshot_id: String
+  type: String
+  uri: String
+  primary_color: String
+  tracks: Tracks
+  owner: Owner
+  images: [Images]
+  followers: Followers
+  external_urls: ExternalUrls
+}
