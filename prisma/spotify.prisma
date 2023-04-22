@@ -5,7 +5,7 @@ generator client {
   provider        = "prisma-client-js"
   binaryTargets   = ["native"]
   output          = "../src/spotify-prisma/prisma-client-js"
-  previewFeatures = [ "postgresqlExtensions" , "deno"]
+  previewFeatures = ["postgresqlExtensions", "deno"]
 }
 
 // generator gql_client {
@@ -30,18 +30,19 @@ generator client {
 
 datasource db {
   provider          = "postgresql"
-  url               = env("DATABASE_URL")
+  url               = "prisma://aws-us-east-1.prisma-data.com/?api_key=fqwKAeNGnLoXJlgGhqn3LNjAJyhleR_Y8qGqskYJwZ-ISRz_ROsYTcIBOKDnvppu"
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  directUrl         = env("NEON_DATABASE_URL")
   // url      = "file:./hello-prisma.db"
 }
 
 model Tag {
   id                    Int                     @id @default(autoincrement())
-  code                  String
+  code                  String                  @unique
   type                  String // "market" / "genres"
   name                  String
   TracksGenres          TracksGenres[]
-  AlbumOnGenres         AlbumOnGenres[]
+  // AlbumOnGenres         AlbumOnGenres[]
   AlbumAvailableMarket  AlbumAvailableMarket[]
   TracksAvailableMarket TracksAvailableMarket[]
   ArtistInGenres        ArtistInGenres[]
@@ -79,8 +80,10 @@ model Artist {
   createdAt            DateTime               @default(now())
   updatedAt            DateTime               @updatedAt
   uid                  String?
-  Genres               ArtistInGenres[]
+  name                 String
   popularity           Int
+  imageUrl             String
+  Genres               ArtistInGenres[]
   TrackProduceByArtist TrackProduceByArtist[]
   AlbumProduceByArtist AlbumProduceByArtist[]
   Followers            ArtistOnFollowing[]
@@ -121,14 +124,13 @@ model Album {
   name                 String
   releaseDate          DateTime
   releaseDatePrecision String
-  label                String
-  popularity           Int
+  // label                String
+  // popularity           Int
   albumGroup           String
   // externalIds ExternalIds
   copyrights           String
-  imagesId             String[]
+  imageUrl             String
   availableMarkets     AlbumAvailableMarket[]
-  Genres               AlbumOnGenres[]
   Artists              AlbumProduceByArtist[]
   Tracks               Track[]
 }
@@ -201,19 +203,19 @@ model AlbumProduceByArtist {
   albumId  Int
   Album    Album  @relation(fields: [albumId], references: [id])
   artistId Int
-  Artists  Artist @relation(fields: [artistId], references: [id])
+  Artist  Artist @relation(fields: [artistId], references: [id])
 
   @@id([albumId, artistId])
 }
 
-model AlbumOnGenres {
-  albumId  Int
-  Album    Album @relation(fields: [albumId], references: [id])
-  genresId Int
-  Genres   Tag   @relation(fields: [genresId], references: [id])
+// model AlbumOnGenres {
+//   albumId  Int
+//   Album    Album @relation(fields: [albumId], references: [id])
+//   genresId Int
+//   Genres   Tag   @relation(fields: [genresId], references: [id])
 
-  @@id([albumId, genresId])
-}
+//   @@id([albumId, genresId])
+// }
 
 model AlbumAvailableMarket {
   id      Int   @id @default(autoincrement())
