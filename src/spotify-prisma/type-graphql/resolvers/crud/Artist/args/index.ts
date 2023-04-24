@@ -1,0 +1,14 @@
+export { AggregateArtistArgs } from "./AggregateArtistArgs";
+export { CreateManyArtistArgs } from "./CreateManyArtistArgs";
+export { CreateOneArtistArgs } from "./CreateOneArtistArgs";
+export { DeleteManyArtistArgs } from "./DeleteManyArtistArgs";
+export { DeleteOneArtistArgs } from "./DeleteOneArtistArgs";
+export { FindFirstArtistArgs } from "./FindFirstArtistArgs";
+export { FindFirstArtistOrThrowArgs } from "./FindFirstArtistOrThrowArgs";
+export { FindManyArtistArgs } from "./FindManyArtistArgs";
+export { FindUniqueArtistArgs } from "./FindUniqueArtistArgs";
+export { FindUniqueArtistOrThrowArgs } from "./FindUniqueArtistOrThrowArgs";
+export { GroupByArtistArgs } from "./GroupByArtistArgs";
+export { UpdateManyArtistArgs } from "./UpdateManyArtistArgs";
+export { UpdateOneArtistArgs } from "./UpdateOneArtistArgs";
+export { UpsertOneArtistArgs } from "./UpsertOneArtistArgs";

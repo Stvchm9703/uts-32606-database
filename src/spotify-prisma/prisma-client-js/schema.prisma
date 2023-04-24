@@ -1,0 +1,232 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native"]
+  output          = "../src/spotify-prisma/prisma-client-js"
+  previewFeatures = ["postgresqlExtensions", "deno"]
+}
+
+generator gql_client {
+  provider = "typegraphql-prisma"
+  output   = "../src/spotify-prisma/type-graphql"
+}
+
+generator trpc_client {
+  provider        = "prisma-trpc-generator"
+  output          = "../src/spotify-prisma/trpc"
+  withZod         = true
+  withMiddleware  = false
+  withShield      = false
+  contextPath     = "../src/spotify-prisma/trpc/context"
+  trpcOptionsPath = "../src/spotify-prisma/trpc/trpcOptions"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+  output   = "../src/spotify-prisma/dbml"
+}
+
+datasource db {
+  provider          = "postgresql"
+  // url               = "prisma://aws-us-east-1.prisma-data.com/?api_key=fqwKAeNGnLoXJlgGhqn3LNjAJyhleR_Y8qGqskYJwZ-ISRz_ROsYTcIBOKDnvppu"
+  url               = env("NEON_DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  directUrl         = env("NEON_DATABASE_URL")
+  // url      = "file:./hello-prisma.db"
+}
+
+model Tag {
+  id                    Int                     @id @default(autoincrement())
+  code                  String                  @unique
+  type                  String // "market" / "genres"
+  name                  String
+  AlbumAvailableMarket  AlbumAvailableMarket[]
+  TracksAvailableMarket TracksAvailableMarket[]
+  ArtistInGenres        ArtistInGenres[]
+}
+
+model Category {
+  id     Int    @id @default(autoincrement())
+  hashId String @unique
+  name   String
+  icon   String // file hash
+}
+
+model User {
+  id                           Int        @id @unique @default(autoincrement())
+  createdAt                    DateTime   @default(now())
+  updatedAt                    DateTime   @updatedAt
+  uid                          String?
+  name                         String // cast as display_name
+  email                        String?
+  authType                     String     @default("mail")
+  Playlist                     Playlist[]
+  type                         String     @default("user") // user / artist
+  country                      String
+  explicitContentFilterEnabled Boolean
+  explicitContentFilterLocked  Boolean
+  imagesId                     String?
+  product                      String // enum like "premium" / "free"
+
+  FollowPlaylists  PlaylistOnFollower[]
+  FollowingArtists ArtistOnFollowing[]
+}
+
+model Artist {
+  id                   Int                    @id @unique @default(autoincrement())
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  uid                  String                 @unique
+  name                 String
+  popularity           Int?
+  imageUrl             String?
+  Genres               ArtistInGenres[]
+  TrackProduceByArtist TrackProduceByArtist[]
+  AlbumProduceByArtist AlbumProduceByArtist[]
+  Followers            ArtistOnFollowing[]
+}
+
+model Track {
+  id               Int                     @id @default(autoincrement())
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+  uid              String                  @unique
+  name             String
+  discNumber       Int
+  durationMs       Int
+  explicit         Boolean
+  popularity       Int?
+  previewUrl       String?
+  trackNumber      Int
+  isLocal          Boolean
+  availableMarkets TracksAvailableMarket[]
+  Artists          TrackProduceByArtist[]
+  InPlaylist       TracksOnPlaylist[]
+  Album            Album?                  @relation(fields: [albumId], references: [id])
+  albumId          Int?
+}
+
+model Album {
+  id                   Int                    @id @default(autoincrement())
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  uid                  String                 @unique
+  albumType            String
+  totalTracks          Int
+  name                 String
+  releaseDate          DateTime
+  releaseDatePrecision String
+  // label                String
+  // popularity           Int
+  albumGroup           String
+  // externalIds ExternalIds
+  copyrights           String?
+  imageUrl             String?
+  availableMarkets     AlbumAvailableMarket[]
+  Artists              AlbumProduceByArtist[]
+  Tracks               Track[]
+}
+
+model Playlist {
+  id            Int                  @id @default(autoincrement())
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+  uid           String?
+  collaborative Boolean
+  description   String
+  name          String
+  public        Boolean
+  snapshotId    String? // may invoke < category
+  primaryColor  String?
+  tracks        TracksOnPlaylist[]
+  tracksIds     Int
+  owner         User                 @relation(fields: [ownerId], references: [id])
+  ownerId       Int
+  imagesId      String?
+  followers     PlaylistOnFollower[]
+}
+
+model TracksOnPlaylist {
+  playlistId Int
+  Playlist   Playlist @relation(fields: [playlistId], references: [id])
+  trackId    Int
+  Track      Track    @relation(fields: [trackId], references: [id])
+
+  @@id([playlistId, trackId])
+}
+
+
+
+model TracksAvailableMarket {
+  tagId   Int
+  Tag     Tag   @relation(fields: [tagId], references: [id])
+  trackId Int
+  Track   Track @relation(fields: [trackId], references: [id])
+
+  @@id([trackId, tagId])
+}
+
+model TrackProduceByArtist {
+  trackId  Int
+  Track    Track  @relation(fields: [trackId], references: [id])
+  artistId Int
+  Artists  Artist @relation(fields: [artistId], references: [id])
+
+  @@id([trackId, artistId])
+}
+
+model PlaylistOnFollower {
+  playlistId Int
+  Playlist   Playlist @relation(fields: [playlistId], references: [id])
+  userId     Int
+  User       User     @relation(fields: [userId], references: [id])
+
+  @@id([playlistId, userId])
+}
+
+model AlbumProduceByArtist {
+  albumId  Int
+  Album    Album  @relation(fields: [albumId], references: [id])
+  artistId Int
+  Artist   Artist @relation(fields: [artistId], references: [id])
+
+  @@id([albumId, artistId])
+}
+
+// model AlbumOnGenres {
+//   albumId  Int
+//   Album    Album @relation(fields: [albumId], references: [id])
+//   genresId Int
+//   Genres   Tag   @relation(fields: [genresId], references: [id])
+
+//   @@id([albumId, genresId])
+// }
+
+model AlbumAvailableMarket {
+  albumId Int
+  Album   Album @relation(fields: [albumId], references: [id])
+  tagId   Int
+  Tag     Tag   @relation(fields: [tagId], references: [id])
+
+  @@id([albumId, tagId])
+}
+
+model ArtistInGenres {
+  Artist   Artist @relation(fields: [artistId], references: [id])
+  artistId Int
+  Tag      Tag    @relation(fields: [tagId], references: [id])
+  tagId    Int
+
+  @@id([artistId, tagId])
+}
+
+model ArtistOnFollowing {
+  Artist   Artist @relation(fields: [artistId], references: [id])
+  User     User   @relation(fields: [userId], references: [id])
+  artistId Int
+  userId   Int
+
+  @@id([userId, artistId])
+}

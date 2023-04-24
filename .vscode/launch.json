@@ -1,0 +1,40 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "request": "launch",
+      "name": "test run fetch",
+      "type": "node",
+      "program": "${workspaceFolder}/src/spotify-api-fetch/fetch.ts",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "/Users/stephencheng/.deno/bin/deno",
+      "runtimeArgs": [
+        "run",
+        "--inspect-wait",
+        "--allow-all",
+      ],
+      "args": ["--dry-fetch"],
+      "attachSimplePort": 9229
+    },
+    {
+      "request": "launch",
+      "name": "run batch",
+      "type": "node",
+      "program": "${workspaceFolder}/src/spotify-api-fetch/fetch.ts",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "/Users/stephencheng/.deno/bin/deno",
+      "runtimeArgs": [
+        "run",
+        "--inspect-wait",
+        "--allow-all",
+      ],
+      "args": [
+        // "--dry-fetch"
+      ],
+      "attachSimplePort": 9229
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+export { AggregateAlbumAvailableMarketArgs } from "./AggregateAlbumAvailableMarketArgs";
+export { CreateManyAlbumAvailableMarketArgs } from "./CreateManyAlbumAvailableMarketArgs";
+export { CreateOneAlbumAvailableMarketArgs } from "./CreateOneAlbumAvailableMarketArgs";
+export { DeleteManyAlbumAvailableMarketArgs } from "./DeleteManyAlbumAvailableMarketArgs";
+export { DeleteOneAlbumAvailableMarketArgs } from "./DeleteOneAlbumAvailableMarketArgs";
+export { FindFirstAlbumAvailableMarketArgs } from "./FindFirstAlbumAvailableMarketArgs";
+export { FindFirstAlbumAvailableMarketOrThrowArgs } from "./FindFirstAlbumAvailableMarketOrThrowArgs";
+export { FindManyAlbumAvailableMarketArgs } from "./FindManyAlbumAvailableMarketArgs";
+export { FindUniqueAlbumAvailableMarketArgs } from "./FindUniqueAlbumAvailableMarketArgs";
+export { FindUniqueAlbumAvailableMarketOrThrowArgs } from "./FindUniqueAlbumAvailableMarketOrThrowArgs";
+export { GroupByAlbumAvailableMarketArgs } from "./GroupByAlbumAvailableMarketArgs";
+export { UpdateManyAlbumAvailableMarketArgs } from "./UpdateManyAlbumAvailableMarketArgs";
+export { UpdateOneAlbumAvailableMarketArgs } from "./UpdateOneAlbumAvailableMarketArgs";
+export { UpsertOneAlbumAvailableMarketArgs } from "./UpsertOneAlbumAvailableMarketArgs";

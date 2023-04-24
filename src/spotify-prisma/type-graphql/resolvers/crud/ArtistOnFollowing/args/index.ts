@@ -1,0 +1,14 @@
+export { AggregateArtistOnFollowingArgs } from "./AggregateArtistOnFollowingArgs";
+export { CreateManyArtistOnFollowingArgs } from "./CreateManyArtistOnFollowingArgs";
+export { CreateOneArtistOnFollowingArgs } from "./CreateOneArtistOnFollowingArgs";
+export { DeleteManyArtistOnFollowingArgs } from "./DeleteManyArtistOnFollowingArgs";
+export { DeleteOneArtistOnFollowingArgs } from "./DeleteOneArtistOnFollowingArgs";
+export { FindFirstArtistOnFollowingArgs } from "./FindFirstArtistOnFollowingArgs";
+export { FindFirstArtistOnFollowingOrThrowArgs } from "./FindFirstArtistOnFollowingOrThrowArgs";
+export { FindManyArtistOnFollowingArgs } from "./FindManyArtistOnFollowingArgs";
+export { FindUniqueArtistOnFollowingArgs } from "./FindUniqueArtistOnFollowingArgs";
+export { FindUniqueArtistOnFollowingOrThrowArgs } from "./FindUniqueArtistOnFollowingOrThrowArgs";
+export { GroupByArtistOnFollowingArgs } from "./GroupByArtistOnFollowingArgs";
+export { UpdateManyArtistOnFollowingArgs } from "./UpdateManyArtistOnFollowingArgs";
+export { UpdateOneArtistOnFollowingArgs } from "./UpdateOneArtistOnFollowingArgs";
+export { UpsertOneArtistOnFollowingArgs } from "./UpsertOneArtistOnFollowingArgs";

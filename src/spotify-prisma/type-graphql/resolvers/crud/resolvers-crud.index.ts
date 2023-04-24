@@ -1,0 +1,15 @@
+export { AlbumCrudResolver } from "./Album/AlbumCrudResolver";
+export { AlbumAvailableMarketCrudResolver } from "./AlbumAvailableMarket/AlbumAvailableMarketCrudResolver";
+export { AlbumProduceByArtistCrudResolver } from "./AlbumProduceByArtist/AlbumProduceByArtistCrudResolver";
+export { ArtistCrudResolver } from "./Artist/ArtistCrudResolver";
+export { ArtistInGenresCrudResolver } from "./ArtistInGenres/ArtistInGenresCrudResolver";
+export { ArtistOnFollowingCrudResolver } from "./ArtistOnFollowing/ArtistOnFollowingCrudResolver";
+export { CategoryCrudResolver } from "./Category/CategoryCrudResolver";
+export { PlaylistCrudResolver } from "./Playlist/PlaylistCrudResolver";
+export { PlaylistOnFollowerCrudResolver } from "./PlaylistOnFollower/PlaylistOnFollowerCrudResolver";
+export { TagCrudResolver } from "./Tag/TagCrudResolver";
+export { TrackCrudResolver } from "./Track/TrackCrudResolver";
+export { TrackProduceByArtistCrudResolver } from "./TrackProduceByArtist/TrackProduceByArtistCrudResolver";
+export { TracksAvailableMarketCrudResolver } from "./TracksAvailableMarket/TracksAvailableMarketCrudResolver";
+export { TracksOnPlaylistCrudResolver } from "./TracksOnPlaylist/TracksOnPlaylistCrudResolver";
+export { UserCrudResolver } from "./User/UserCrudResolver";

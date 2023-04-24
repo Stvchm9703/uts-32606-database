@@ -1,0 +1,16 @@
+{
+  "tasks": {
+    "dev": "deno run --watch main.ts",
+    "generate": "deno run -A npm:prisma generate --schema=./prisma/spotify.prisma --data-proxy",
+    "migrate-gen": "deno run -A npm:prisma migrate dev  --create-only --schema=./prisma/spotify.prisma --skip-generate  --skip-seed --name=spotify",
+    "migrate-exec": "deno run -A npm:prisma migrate dev  --schema=./prisma/spotify.prisma --name=spotify",
+    "db-reset" : "deno run -A npm:prisma db push --schema=./prisma/spotify.prisma  --force-reset && deno run -A npm:prisma db push --schema=./prisma/spotify.prisma "
+  },
+  
+  "imports": {
+    "type-graphql": "npm:type-graphql",
+    "zod": "npm:zod",
+    "@trpc/server": "npm:@trpc/server",
+    "@spotify-prisma" : "./src/spotify-prisma/prisma-client-js/deno/edge.ts"
+  }
+}
