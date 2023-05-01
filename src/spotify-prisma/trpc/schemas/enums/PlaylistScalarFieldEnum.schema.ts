@@ -2,16 +2,9 @@ import { z } from 'zod';
 
 export const PlaylistScalarFieldEnumSchema = z.enum([
   'id',
-  'createdAt',
-  'updatedAt',
-  'uid',
-  'collaborative',
-  'description',
   'name',
+  'description',
   'public',
-  'snapshotId',
   'primaryColor',
-  'tracksIds',
-  'ownerId',
   'imagesId',
 ]);

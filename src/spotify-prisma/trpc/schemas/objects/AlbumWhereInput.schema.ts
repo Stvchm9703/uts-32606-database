@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { IntFilterObjectSchema } from './IntFilter.schema';
-import { DateTimeFilterObjectSchema } from './DateTimeFilter.schema';
 import { StringFilterObjectSchema } from './StringFilter.schema';
 import { StringNullableFilterObjectSchema } from './StringNullableFilter.schema';
 import { AlbumAvailableMarketListRelationFilterObjectSchema } from './AlbumAvailableMarketListRelationFilter.schema';
@@ -28,15 +27,6 @@ const Schema: z.ZodType<Prisma.AlbumWhereInput> = z
       ])
       .optional(),
     id: z.union([z.lazy(() => IntFilterObjectSchema), z.number()]).optional(),
-    createdAt: z
-      .union([z.lazy(() => DateTimeFilterObjectSchema), z.date()])
-      .optional(),
-    updatedAt: z
-      .union([z.lazy(() => DateTimeFilterObjectSchema), z.date()])
-      .optional(),
-    uid: z
-      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
-      .optional(),
     albumType: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
@@ -46,19 +36,6 @@ const Schema: z.ZodType<Prisma.AlbumWhereInput> = z
     name: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
-    releaseDate: z
-      .union([z.lazy(() => DateTimeFilterObjectSchema), z.date()])
-      .optional(),
-    releaseDatePrecision: z
-      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
-      .optional(),
-    albumGroup: z
-      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
-      .optional(),
-    copyrights: z
-      .union([z.lazy(() => StringNullableFilterObjectSchema), z.string()])
-      .optional()
-      .nullable(),
     imageUrl: z
       .union([z.lazy(() => StringNullableFilterObjectSchema), z.string()])
       .optional()

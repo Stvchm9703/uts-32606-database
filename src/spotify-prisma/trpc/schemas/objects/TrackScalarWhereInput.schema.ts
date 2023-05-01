@@ -1,8 +1,6 @@
 import { z } from 'zod';
 import { IntFilterObjectSchema } from './IntFilter.schema';
-import { DateTimeFilterObjectSchema } from './DateTimeFilter.schema';
 import { StringFilterObjectSchema } from './StringFilter.schema';
-import { BoolFilterObjectSchema } from './BoolFilter.schema';
 import { IntNullableFilterObjectSchema } from './IntNullableFilter.schema';
 import { StringNullableFilterObjectSchema } from './StringNullableFilter.schema';
 
@@ -27,26 +25,11 @@ const Schema: z.ZodType<Prisma.TrackScalarWhereInput> = z
       ])
       .optional(),
     id: z.union([z.lazy(() => IntFilterObjectSchema), z.number()]).optional(),
-    createdAt: z
-      .union([z.lazy(() => DateTimeFilterObjectSchema), z.date()])
-      .optional(),
-    updatedAt: z
-      .union([z.lazy(() => DateTimeFilterObjectSchema), z.date()])
-      .optional(),
-    uid: z
-      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
-      .optional(),
     name: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
     discNumber: z
       .union([z.lazy(() => IntFilterObjectSchema), z.number()])
-      .optional(),
-    durationMs: z
-      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
-      .optional(),
-    explicit: z
-      .union([z.lazy(() => BoolFilterObjectSchema), z.boolean()])
       .optional(),
     popularity: z
       .union([z.lazy(() => IntNullableFilterObjectSchema), z.number()])
@@ -58,9 +41,6 @@ const Schema: z.ZodType<Prisma.TrackScalarWhereInput> = z
       .nullable(),
     trackNumber: z
       .union([z.lazy(() => IntFilterObjectSchema), z.number()])
-      .optional(),
-    isLocal: z
-      .union([z.lazy(() => BoolFilterObjectSchema), z.boolean()])
       .optional(),
     albumId: z
       .union([z.lazy(() => IntNullableFilterObjectSchema), z.number()])

@@ -5,7 +5,6 @@ import type { Prisma } from '../../../prisma-client-js';
 const Schema: z.ZodType<Prisma.TrackWhereUniqueInput> = z
   .object({
     id: z.number().optional(),
-    uid: z.string().optional(),
   })
   .strict();
 

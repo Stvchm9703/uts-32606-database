@@ -1,8 +1,6 @@
 import { z } from 'zod';
 import { IntWithAggregatesFilterObjectSchema } from './IntWithAggregatesFilter.schema';
-import { DateTimeWithAggregatesFilterObjectSchema } from './DateTimeWithAggregatesFilter.schema';
 import { StringWithAggregatesFilterObjectSchema } from './StringWithAggregatesFilter.schema';
-import { BoolWithAggregatesFilterObjectSchema } from './BoolWithAggregatesFilter.schema';
 import { IntNullableWithAggregatesFilterObjectSchema } from './IntNullableWithAggregatesFilter.schema';
 import { StringNullableWithAggregatesFilterObjectSchema } from './StringNullableWithAggregatesFilter.schema';
 
@@ -29,26 +27,11 @@ const Schema: z.ZodType<Prisma.TrackScalarWhereWithAggregatesInput> = z
     id: z
       .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
       .optional(),
-    createdAt: z
-      .union([z.lazy(() => DateTimeWithAggregatesFilterObjectSchema), z.date()])
-      .optional(),
-    updatedAt: z
-      .union([z.lazy(() => DateTimeWithAggregatesFilterObjectSchema), z.date()])
-      .optional(),
-    uid: z
-      .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
-      .optional(),
     name: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
     discNumber: z
       .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
-      .optional(),
-    durationMs: z
-      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
-      .optional(),
-    explicit: z
-      .union([z.lazy(() => BoolWithAggregatesFilterObjectSchema), z.boolean()])
       .optional(),
     popularity: z
       .union([
@@ -66,9 +49,6 @@ const Schema: z.ZodType<Prisma.TrackScalarWhereWithAggregatesInput> = z
       .nullable(),
     trackNumber: z
       .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
-      .optional(),
-    isLocal: z
-      .union([z.lazy(() => BoolWithAggregatesFilterObjectSchema), z.boolean()])
       .optional(),
     albumId: z
       .union([

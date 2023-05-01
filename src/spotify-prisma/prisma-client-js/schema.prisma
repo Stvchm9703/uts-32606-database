@@ -5,7 +5,7 @@ generator client {
   provider        = "prisma-client-js"
   binaryTargets   = ["native"]
   output          = "../src/spotify-prisma/prisma-client-js"
-  previewFeatures = ["postgresqlExtensions", "deno"]
+  previewFeatures = ["postgresqlExtensions", "deno", "views"]
 }
 
 generator gql_client {
@@ -47,60 +47,64 @@ model Tag {
   ArtistInGenres        ArtistInGenres[]
 }
 
-model Category {
-  id     Int    @id @default(autoincrement())
-  hashId String @unique
-  name   String
-  icon   String // file hash
-}
+// model User {
+//   id                           Int        @id @unique @default(autoincrement())
+//   createdAt                    DateTime   @default(now())
+//   updatedAt                    DateTime   @updatedAt
+//   uid                          String?
+//   name                         String // cast as display_name
+//   email                        String?
+//   authType                     String     @default("mail")
+//   Playlist                     Playlist[]
+//   type                         String     @default("user") // user / artist
+//   country                      String
+//   explicitContentFilterEnabled Boolean
+//   explicitContentFilterLocked  Boolean
+//   imagesId                     String?
+//   product                      String // enum like "premium" / "free"
 
-model User {
-  id                           Int        @id @unique @default(autoincrement())
-  createdAt                    DateTime   @default(now())
-  updatedAt                    DateTime   @updatedAt
-  uid                          String?
-  name                         String // cast as display_name
-  email                        String?
-  authType                     String     @default("mail")
-  Playlist                     Playlist[]
-  type                         String     @default("user") // user / artist
-  country                      String
-  explicitContentFilterEnabled Boolean
-  explicitContentFilterLocked  Boolean
-  imagesId                     String?
-  product                      String // enum like "premium" / "free"
+//   Followers       User[] @relation("following")
+//   FollowingBase   User?  @relation("following", fields: [followingBaseId], references: [id])
+//   followingBaseId Int?
 
-  FollowPlaylists  PlaylistOnFollower[]
-  FollowingArtists ArtistOnFollowing[]
-}
+//   FollowPlaylists  PlaylistOnFollower[]
+//   FollowingArtists ArtistOnFollowing[]
+// }
 
 model Artist {
   id                   Int                    @id @unique @default(autoincrement())
-  createdAt            DateTime               @default(now())
-  updatedAt            DateTime               @updatedAt
-  uid                  String                 @unique
+  // createdAt            DateTime               @default(now())
+  // updatedAt            DateTime               @updatedAt
+  // uid                  String                 @unique
   name                 String
   popularity           Int?
   imageUrl             String?
   Genres               ArtistInGenres[]
   TrackProduceByArtist TrackProduceByArtist[]
   AlbumProduceByArtist AlbumProduceByArtist[]
-  Followers            ArtistOnFollowing[]
+  // Followers            ArtistOnFollowing[]
+}
+
+model ArtistDataMeta {
+  id        Int      @id @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  uid       String   @unique
 }
 
 model Track {
   id               Int                     @id @default(autoincrement())
-  createdAt        DateTime                @default(now())
-  updatedAt        DateTime                @updatedAt
-  uid              String                  @unique
+  // createdAt        DateTime                @default(now())
+  // updatedAt        DateTime                @updatedAt
+  // uid              String                  @unique
   name             String
   discNumber       Int
-  durationMs       Int
-  explicit         Boolean
+  // durationMs       Int
+  // explicit         Boolean
   popularity       Int?
   previewUrl       String?
   trackNumber      Int
-  isLocal          Boolean
+  // isLocal          Boolean
   availableMarkets TracksAvailableMarket[]
   Artists          TrackProduceByArtist[]
   InPlaylist       TracksOnPlaylist[]
@@ -108,44 +112,70 @@ model Track {
   albumId          Int?
 }
 
+model TrackMeta {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  uid        String   @unique
+  durationMs Int
+}
+
 model Album {
-  id                   Int                    @id @default(autoincrement())
-  createdAt            DateTime               @default(now())
-  updatedAt            DateTime               @updatedAt
-  uid                  String                 @unique
-  albumType            String
-  totalTracks          Int
-  name                 String
-  releaseDate          DateTime
-  releaseDatePrecision String
+  id               Int                    @id @default(autoincrement())
+  // createdAt            DateTime               @default(now())
+  // updatedAt            DateTime               @updatedAt
+  // uid                  String                 @unique
+  albumType        String
+  totalTracks      Int
+  name             String
+  // releaseDate          DateTime
+  // releaseDatePrecision String
   // label                String
   // popularity           Int
-  albumGroup           String
+  // albumGroup       String
   // externalIds ExternalIds
+  // copyrights           String?
+  imageUrl         String?
+  availableMarkets AlbumAvailableMarket[]
+  Artists          AlbumProduceByArtist[]
+  Tracks           Track[]
+}
+
+model AlbumMeta {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  uid       String
+
+  releaseDate          DateTime
+  releaseDatePrecision String
   copyrights           String?
-  imageUrl             String?
-  availableMarkets     AlbumAvailableMarket[]
-  Artists              AlbumProduceByArtist[]
-  Tracks               Track[]
 }
 
 model Playlist {
-  id            Int                  @id @default(autoincrement())
-  createdAt     DateTime             @default(now())
-  updatedAt     DateTime             @updatedAt
-  uid           String?
-  collaborative Boolean
-  description   String
+  id            Int                @id @default(autoincrement())
+  // createdAt     DateTime           @default(now())
+  // updatedAt     DateTime           @updatedAt
+  // uid           String?
+  // collaborative Boolean
   name          String
+  description   String
   public        Boolean
-  snapshotId    String? // may invoke < category
+  // snapshotId    String? // may invoke < category
   primaryColor  String?
-  tracks        TracksOnPlaylist[]
-  tracksIds     Int
-  owner         User                 @relation(fields: [ownerId], references: [id])
-  ownerId       Int
   imagesId      String?
-  followers     PlaylistOnFollower[]
+  tracks        TracksOnPlaylist[]
+  // tracksIds     Int
+  // owner         User                 @relation(fields: [ownerId], references: [id])
+  // ownerId       Int
+  // followers     PlaylistOnFollower[]
+}
+
+model PlaylistMeta {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  uid       String?
 }
 
 model TracksOnPlaylist {
@@ -156,8 +186,6 @@ model TracksOnPlaylist {
 
   @@id([playlistId, trackId])
 }
-
-
 
 model TracksAvailableMarket {
   tagId   Int
@@ -177,14 +205,14 @@ model TrackProduceByArtist {
   @@id([trackId, artistId])
 }
 
-model PlaylistOnFollower {
-  playlistId Int
-  Playlist   Playlist @relation(fields: [playlistId], references: [id])
-  userId     Int
-  User       User     @relation(fields: [userId], references: [id])
+// model PlaylistOnFollower {
+//   playlistId Int
+//   Playlist   Playlist @relation(fields: [playlistId], references: [id])
+//   userId     Int
+//   User       User     @relation(fields: [userId], references: [id])
 
-  @@id([playlistId, userId])
-}
+//   @@id([playlistId, userId])
+// }
 
 model AlbumProduceByArtist {
   albumId  Int
@@ -222,11 +250,11 @@ model ArtistInGenres {
   @@id([artistId, tagId])
 }
 
-model ArtistOnFollowing {
-  Artist   Artist @relation(fields: [artistId], references: [id])
-  User     User   @relation(fields: [userId], references: [id])
-  artistId Int
-  userId   Int
+// model ArtistOnFollowing {
+//   Artist   Artist @relation(fields: [artistId], references: [id])
+//   artistId Int
+//   User     User   @relation(fields: [userId], references: [id])
+//   userId   Int
 
-  @@id([userId, artistId])
-}
+//   @@id([userId, artistId])
+// }

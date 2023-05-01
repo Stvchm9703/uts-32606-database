@@ -11,9 +11,6 @@ import type { Prisma } from '../../../prisma-client-js';
 const Schema: z.ZodType<Prisma.ArtistOrderByWithAggregationInput> = z
   .object({
     id: z.lazy(() => SortOrderSchema).optional(),
-    createdAt: z.lazy(() => SortOrderSchema).optional(),
-    updatedAt: z.lazy(() => SortOrderSchema).optional(),
-    uid: z.lazy(() => SortOrderSchema).optional(),
     name: z.lazy(() => SortOrderSchema).optional(),
     popularity: z.lazy(() => SortOrderSchema).optional(),
     imageUrl: z.lazy(() => SortOrderSchema).optional(),

@@ -1,12 +1,10 @@
 import { z } from 'zod';
 import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
-import { DateTimeFieldUpdateOperationsInputObjectSchema } from './DateTimeFieldUpdateOperationsInput.schema';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { NullableIntFieldUpdateOperationsInputObjectSchema } from './NullableIntFieldUpdateOperationsInput.schema';
 import { NullableStringFieldUpdateOperationsInputObjectSchema } from './NullableStringFieldUpdateOperationsInput.schema';
 import { ArtistInGenresUncheckedUpdateManyWithoutArtistNestedInputObjectSchema } from './ArtistInGenresUncheckedUpdateManyWithoutArtistNestedInput.schema';
 import { TrackProduceByArtistUncheckedUpdateManyWithoutArtistsNestedInputObjectSchema } from './TrackProduceByArtistUncheckedUpdateManyWithoutArtistsNestedInput.schema';
-import { ArtistOnFollowingUncheckedUpdateManyWithoutArtistNestedInputObjectSchema } from './ArtistOnFollowingUncheckedUpdateManyWithoutArtistNestedInput.schema';
 
 import type { Prisma } from '../../../prisma-client-js';
 
@@ -17,24 +15,6 @@ const Schema: z.ZodType<Prisma.ArtistUncheckedUpdateWithoutAlbumProduceByArtistI
         .union([
           z.number(),
           z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
-        ])
-        .optional(),
-      createdAt: z
-        .union([
-          z.date(),
-          z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema),
-        ])
-        .optional(),
-      updatedAt: z
-        .union([
-          z.date(),
-          z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema),
-        ])
-        .optional(),
-      uid: z
-        .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
       name: z
@@ -67,12 +47,6 @@ const Schema: z.ZodType<Prisma.ArtistUncheckedUpdateWithoutAlbumProduceByArtistI
         .lazy(
           () =>
             TrackProduceByArtistUncheckedUpdateManyWithoutArtistsNestedInputObjectSchema,
-        )
-        .optional(),
-      Followers: z
-        .lazy(
-          () =>
-            ArtistOnFollowingUncheckedUpdateManyWithoutArtistNestedInputObjectSchema,
         )
         .optional(),
     })

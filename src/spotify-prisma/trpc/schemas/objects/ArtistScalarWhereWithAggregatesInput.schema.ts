@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { IntWithAggregatesFilterObjectSchema } from './IntWithAggregatesFilter.schema';
-import { DateTimeWithAggregatesFilterObjectSchema } from './DateTimeWithAggregatesFilter.schema';
 import { StringWithAggregatesFilterObjectSchema } from './StringWithAggregatesFilter.schema';
 import { IntNullableWithAggregatesFilterObjectSchema } from './IntNullableWithAggregatesFilter.schema';
 import { StringNullableWithAggregatesFilterObjectSchema } from './StringNullableWithAggregatesFilter.schema';
@@ -27,15 +26,6 @@ const Schema: z.ZodType<Prisma.ArtistScalarWhereWithAggregatesInput> = z
       .optional(),
     id: z
       .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
-      .optional(),
-    createdAt: z
-      .union([z.lazy(() => DateTimeWithAggregatesFilterObjectSchema), z.date()])
-      .optional(),
-    updatedAt: z
-      .union([z.lazy(() => DateTimeWithAggregatesFilterObjectSchema), z.date()])
-      .optional(),
-    uid: z
-      .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
     name: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])

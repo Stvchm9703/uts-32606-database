@@ -14,11 +14,11 @@ exports.Prisma = Prisma
 
 /**
  * Prisma Client JS version: 4.12.0
- * Query Engine version: 659ef412370fa3b41cd7bf6e94587c1dfb7f67e7
+ * Query Engine version: 1e7af066ee9cb95cf3a403c78d9aab3e6b04f37a
  */
 Prisma.prismaVersion = {
   client: "4.12.0",
-  engine: "659ef412370fa3b41cd7bf6e94587c1dfb7f67e7"
+  engine: "1e7af066ee9cb95cf3a403c78d9aab3e6b04f37a"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -94,6 +94,16 @@ exports.Prisma.AlbumAvailableMarketScalarFieldEnum = makeEnum({
   tagId: 'tagId'
 });
 
+exports.Prisma.AlbumMetaScalarFieldEnum = makeEnum({
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  uid: 'uid',
+  releaseDate: 'releaseDate',
+  releaseDatePrecision: 'releaseDatePrecision',
+  copyrights: 'copyrights'
+});
+
 exports.Prisma.AlbumProduceByArtistScalarFieldEnum = makeEnum({
   albumId: 'albumId',
   artistId: 'artistId'
@@ -101,17 +111,17 @@ exports.Prisma.AlbumProduceByArtistScalarFieldEnum = makeEnum({
 
 exports.Prisma.AlbumScalarFieldEnum = makeEnum({
   id: 'id',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  uid: 'uid',
   albumType: 'albumType',
   totalTracks: 'totalTracks',
   name: 'name',
-  releaseDate: 'releaseDate',
-  releaseDatePrecision: 'releaseDatePrecision',
-  albumGroup: 'albumGroup',
-  copyrights: 'copyrights',
   imageUrl: 'imageUrl'
+});
+
+exports.Prisma.ArtistDataMetaScalarFieldEnum = makeEnum({
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  uid: 'uid'
 });
 
 exports.Prisma.ArtistInGenresScalarFieldEnum = makeEnum({
@@ -119,46 +129,26 @@ exports.Prisma.ArtistInGenresScalarFieldEnum = makeEnum({
   tagId: 'tagId'
 });
 
-exports.Prisma.ArtistOnFollowingScalarFieldEnum = makeEnum({
-  artistId: 'artistId',
-  userId: 'userId'
-});
-
 exports.Prisma.ArtistScalarFieldEnum = makeEnum({
   id: 'id',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  uid: 'uid',
   name: 'name',
   popularity: 'popularity',
   imageUrl: 'imageUrl'
 });
 
-exports.Prisma.CategoryScalarFieldEnum = makeEnum({
+exports.Prisma.PlaylistMetaScalarFieldEnum = makeEnum({
   id: 'id',
-  hashId: 'hashId',
-  name: 'name',
-  icon: 'icon'
-});
-
-exports.Prisma.PlaylistOnFollowerScalarFieldEnum = makeEnum({
-  playlistId: 'playlistId',
-  userId: 'userId'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  uid: 'uid'
 });
 
 exports.Prisma.PlaylistScalarFieldEnum = makeEnum({
   id: 'id',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  uid: 'uid',
-  collaborative: 'collaborative',
-  description: 'description',
   name: 'name',
+  description: 'description',
   public: 'public',
-  snapshotId: 'snapshotId',
   primaryColor: 'primaryColor',
-  tracksIds: 'tracksIds',
-  ownerId: 'ownerId',
   imagesId: 'imagesId'
 });
 
@@ -179,6 +169,14 @@ exports.Prisma.TagScalarFieldEnum = makeEnum({
   name: 'name'
 });
 
+exports.Prisma.TrackMetaScalarFieldEnum = makeEnum({
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  uid: 'uid',
+  durationMs: 'durationMs'
+});
+
 exports.Prisma.TrackProduceByArtistScalarFieldEnum = makeEnum({
   trackId: 'trackId',
   artistId: 'artistId'
@@ -186,17 +184,11 @@ exports.Prisma.TrackProduceByArtistScalarFieldEnum = makeEnum({
 
 exports.Prisma.TrackScalarFieldEnum = makeEnum({
   id: 'id',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  uid: 'uid',
   name: 'name',
   discNumber: 'discNumber',
-  durationMs: 'durationMs',
-  explicit: 'explicit',
   popularity: 'popularity',
   previewUrl: 'previewUrl',
   trackNumber: 'trackNumber',
-  isLocal: 'isLocal',
   albumId: 'albumId'
 });
 
@@ -217,39 +209,23 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = makeEnum({
-  id: 'id',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  uid: 'uid',
-  name: 'name',
-  email: 'email',
-  authType: 'authType',
-  type: 'type',
-  country: 'country',
-  explicitContentFilterEnabled: 'explicitContentFilterEnabled',
-  explicitContentFilterLocked: 'explicitContentFilterLocked',
-  imagesId: 'imagesId',
-  product: 'product'
-});
-
 
 exports.Prisma.ModelName = makeEnum({
   Tag: 'Tag',
-  Category: 'Category',
-  User: 'User',
   Artist: 'Artist',
+  ArtistDataMeta: 'ArtistDataMeta',
   Track: 'Track',
+  TrackMeta: 'TrackMeta',
   Album: 'Album',
+  AlbumMeta: 'AlbumMeta',
   Playlist: 'Playlist',
+  PlaylistMeta: 'PlaylistMeta',
   TracksOnPlaylist: 'TracksOnPlaylist',
   TracksAvailableMarket: 'TracksAvailableMarket',
   TrackProduceByArtist: 'TrackProduceByArtist',
-  PlaylistOnFollower: 'PlaylistOnFollower',
   AlbumProduceByArtist: 'AlbumProduceByArtist',
   AlbumAvailableMarket: 'AlbumAvailableMarket',
-  ArtistInGenres: 'ArtistInGenres',
-  ArtistOnFollowing: 'ArtistOnFollowing'
+  ArtistInGenres: 'ArtistInGenres'
 });
 
 /**

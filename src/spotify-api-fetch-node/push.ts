@@ -15,7 +15,7 @@ const dateParse = (dateString: string, format: string) => dayjs(dateString, form
 const market_str_list: Array<string> = ["AD", "AE", "AG", "AL", "AM", "AO", "AR", "AT", "AU", "AZ", "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BN", "BO", "BR", "BS", "BT", "BW", "BY", "BZ", "CA", "CD", "CG", "CH", "CI", "CL", "CM", "CO", "CR", "CV", "CW", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ", "EC", "EE", "EG", "ES", "ET", "FI", "FJ", "FM", "FR", "GA", "GB", "GD", "GE", "GH", "GM", "GN", "GQ", "GR", "GT", "GW", "GY", "HK", "HN", "HR", "HT", "HU", "ID", "IE", "IL", "IN", "IQ", "IS", "IT", "JM", "JO", "JP", "KE", "KG", "KH", "KI", "KM", "KN", "KR", "KW", "KZ", "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY", "MA", "MC", "MD", "ME", "MG", "MH", "MK", "ML", "MN", "MO", "MR", "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "NA", "NE", "NG", "NI", "NL", "NO", "NP", "NR", "NZ", "OM", "PA", "PE", "PG", "PH", "PK", "PL", "PS", "PT", "PW", "PY", "QA", "RO", "RS", "RW", "SA", "SB", "SC", "SE", "SG", "SI", "SK", "SL", "SM", "SN", "SR", "ST", "SV", "SZ", "TD", "TG", "TH", "TJ", "TL", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG", "US", "UY", "UZ", "VC", "VE", "VN", "VU", "WS", "XK", "ZA", "ZM", "ZW"]
 const market_tag_list: Array<Tag> = []
 const nowtime = Date.now()
-const create_inst = (process_name:string) => {
+const create_inst = (process_name: string) => {
   const prisma_cli = new PrismaClient({
     log: [{ emit: 'event', level: 'query' }]
   });
@@ -38,14 +38,14 @@ const _shorthand__genres_create = (genre_list: Array<any>) => ({
 
 const create_market_tag = async () => {
   const prisma_cli = create_inst('market-tag');
-  await prisma_cli.tag.createMany({
-    data: market_str_list.map(elm => ({
-      code: elm,
-      type: 'market',
-      name: elm
-    })),
-    skipDuplicates: true,
-  });
+  // await prisma_cli.tag.createMany({
+  //   data: market_str_list.map(elm => ({
+  //     code: elm,
+  //     type: 'market',
+  //     name: elm
+  //   })),
+  //   skipDuplicates: true,
+  // });
   const result = await prisma_cli.tag.findMany({
     where: {
       type: 'market',
@@ -56,7 +56,7 @@ const create_market_tag = async () => {
   }
   prisma_cli.$disconnect();
 }
-const create_artist = async (artistData: any , prisma_cli:any) => {
+const create_artist = async (artistData: any, prisma_cli: any) => {
 
   await prisma_cli.artist.upsert({
     create: {
@@ -73,7 +73,7 @@ const create_artist = async (artistData: any , prisma_cli:any) => {
   });
 }
 
-const create_album = async (albumData: any, nowtime: string | number , prisma_cli:any) => {
+const create_album = async (albumData: any, nowtime: string | number, prisma_cli: any) => {
   const artist_id_list = await prisma_cli.artist.findMany({
     where: {
       uid: { in: albumData.artists.map((elm: any) => elm.id) }
@@ -91,7 +91,7 @@ const create_album = async (albumData: any, nowtime: string | number , prisma_cl
       albumType: albumData.album_type,
       albumGroup: albumData.album_group,
       totalTracks: albumData.total_tracks,
-      releaseDate: dateParse(albumData.release_date, "yyyy-MM-dd"),
+      releaseDate: albumData.release_date && albumData.release_date !== "" ? dateParse(albumData.release_date, "yyyy-MM-dd") : Date.now(),
       releaseDatePrecision: albumData.release_date_precision,
       copyrights: "",
     },
@@ -127,7 +127,7 @@ const create_album = async (albumData: any, nowtime: string | number , prisma_cl
 }
 
 
-const chain_bluk_create_trucks = async (track_filename: string, nowtime: string | number, prisma_cli:any) => {
+const chain_bluk_create_trucks = async (track_filename: string, nowtime: string | number, prisma_cli: any) => {
   // const track_result = await fetchAlbumTrack(album_uid, preloads_set.base_config);
   // let nextset = track_result.next ? await _fetchNext(track_result.next) : [];
   // let track_temp = [...track_result.items, ...nextset].map(track_elm => ({ ...track_elm, album_uid, albumId: album_id }))
@@ -213,7 +213,13 @@ const chain_bluk_create_trucks = async (track_filename: string, nowtime: string 
 
 async function main() {
   dotenv.config();
-
+  const last_loaded = await fs.readFile('./data/album-inserted-1682352581080.txt', 'utf8');
+  const last_loaded_list: Array<string> = last_loaded.split('\n');
+  console.log(last_loaded_list);
+  const last_loaded_2 = await fs.readFile('./data/track-inserted-1682397810718.txt', 'utf8');
+  // const last_loaded_2 = ""
+  const last_loaded_list_2: Array<string> = last_loaded_2.split('\n');
+  // console.log(last_loaded_list);
   // const file_list_artlist = await glob(`./data/artist`)
 
 
@@ -232,8 +238,21 @@ async function main() {
   const album_prom = new Promise(async (res) => {
     const prisma_cli = create_inst('album');
 
-    const album_file_list = await glob('./data/album-*.json',);
-    for (const alb_filename of album_file_list) {
+    const album_file_list = await glob('./data/album-*.json', {
+      ignore: last_loaded_list.map(elm => `data/album-${elm}.json`),
+    });
+    console.log({ album_file_list })
+    const new_push_list = [];
+    for (const fikle of album_file_list) {
+      let y = last_loaded_list.find(elm => fikle === `data/album-${elm}.json`)
+      if (!y) {
+        new_push_list.push(fikle)
+      }
+    }
+    console.log({ fileExist: album_file_list.length, loaded: last_loaded_list.length });
+    console.log(new_push_list)
+    for (const alb_filename of new_push_list) {
+
       const raw_alb_data = await fs.readFile(alb_filename, 'utf8');
       const album_data = JSON.parse(raw_alb_data);
       await create_album(album_data, nowtime, prisma_cli);
@@ -241,25 +260,47 @@ async function main() {
     prisma_cli.$disconnect()
 
     return res(true);
-  })
-  const track_prom = new Promise(async (res) => {
+  });
+
+
+
+  const track_prom = (prefix: string | number) => new Promise(async (res) => {
     const prisma_cli = create_inst('track');
 
-    const track_file_list = await glob('./data/track-*.json');
+    const track_file_list = await glob(`./data/track-*.json`, {
+      ignore: last_loaded_list_2.map(elm => `data/track-${elm}.json`)
+    });
+
+    const new_push_list = [];
+    for (const fikle of track_file_list) {
+      let y = last_loaded_list_2.find(elm => fikle === `data/album-${elm}.json`)
+      if (!y) {
+        new_push_list.push(fikle)
+      }
+    }
+    console.log({ fileExist: track_file_list.length, loaded: last_loaded_list_2.length });
+    console.log(new_push_list)
+
+
+
     for (const alb_filename of track_file_list) {
       await chain_bluk_create_trucks(alb_filename, nowtime, prisma_cli);
     }
     prisma_cli.$disconnect();
     return res(true);
   })
-
-  const r = await Promise.allSettled([
-    new Promise(create_market_tag),
-    artist_prom,
-    album_prom,
-    track_prom
-  ]);
-  console.log(r);
+  let char_data = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'.split('');
+  // const r = await Promise.allSettled([
+  //   new Promise(create_market_tag),
+  //   artist_prom,
+  //   album_prom,
+  // ]);
+  await create_market_tag();
+  // await Promise.all([artist_prom, album_prom]);
+  // await Promise.all([album_prom]);
+  // console.log(r);
+  await track_prom('0')
+  // const e = await Promise.allSettled(char_data.map(char => track_prom(char)))
 }
 
 if (typeof require !== 'undefined' && require.main === module) {

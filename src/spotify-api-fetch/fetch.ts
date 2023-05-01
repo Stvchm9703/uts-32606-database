@@ -144,7 +144,8 @@ const preset_artist = [
   "3jdzcmtw5XOmOkSb2mRDtr", // "T.M.Revolution",
   "2ayMogRmamCnzMAk4YiFAz", // TM
   "1k5LyiTCRzPjORzcgHqJxF", // Kanaria.
-  "56TyClNQ0oVZLhK2V9KhA6" //ZAQ
+  "56TyClNQ0oVZLhK2V9KhA6", //ZAQ,.
+  "0MK8l3nURwwQIjafvXoJJt"
 ]
 
 
@@ -200,6 +201,7 @@ export const main = async (arg: any, env: any) => {
       }
     }
     console.timeEnd("fetch-artist");
+    // if (Deno.)
     await Deno.writeTextFile("./data/artist.json", JSON.stringify(fetched_artist), { append: false, create: true, createNew: true })
     return Promise.resolve();
 
@@ -236,7 +238,7 @@ export const main = async (arg: any, env: any) => {
   const _bluk_fetch_track = async () => {
     for (const elm of fetched_album) {
       try {
-        await Timeout.wait(1200);
+        await Timeout.wait(200);
         const prom = await fetchAlbumTrack(elm.id, preloads_set.base_config);
         console.log(elm.name + ' : ' + prom.total);
         console.time(elm.name)

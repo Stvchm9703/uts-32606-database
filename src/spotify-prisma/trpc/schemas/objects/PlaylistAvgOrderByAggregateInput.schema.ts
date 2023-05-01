@@ -6,8 +6,6 @@ import type { Prisma } from '../../../prisma-client-js';
 const Schema: z.ZodType<Prisma.PlaylistAvgOrderByAggregateInput> = z
   .object({
     id: z.lazy(() => SortOrderSchema).optional(),
-    tracksIds: z.lazy(() => SortOrderSchema).optional(),
-    ownerId: z.lazy(() => SortOrderSchema).optional(),
   })
   .strict();
 

@@ -12,59 +12,30 @@ Table Tag {
   ArtistInGenres ArtistInGenres [not null]
 }
 
-Table Category {
-  id Int [pk, increment]
-  hashId String [unique, not null]
-  name String [not null]
-  icon String [not null]
-}
-
-Table User {
-  id Int [pk, increment]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  uid String
-  name String [not null]
-  email String
-  authType String [not null, default: 'mail']
-  Playlist Playlist [not null]
-  type String [not null, default: 'user']
-  country String [not null]
-  explicitContentFilterEnabled Boolean [not null]
-  explicitContentFilterLocked Boolean [not null]
-  imagesId String
-  product String [not null]
-  FollowPlaylists PlaylistOnFollower [not null]
-  FollowingArtists ArtistOnFollowing [not null]
-}
-
 Table Artist {
   id Int [pk, increment]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  uid String [unique, not null]
   name String [not null]
   popularity Int
   imageUrl String
   Genres ArtistInGenres [not null]
   TrackProduceByArtist TrackProduceByArtist [not null]
   AlbumProduceByArtist AlbumProduceByArtist [not null]
-  Followers ArtistOnFollowing [not null]
+}
+
+Table ArtistDataMeta {
+  id Int [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  uid String [unique, not null]
 }
 
 Table Track {
   id Int [pk, increment]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  uid String [unique, not null]
   name String [not null]
   discNumber Int [not null]
-  durationMs Int [not null]
-  explicit Boolean [not null]
   popularity Int
   previewUrl String
   trackNumber Int [not null]
-  isLocal Boolean [not null]
   availableMarkets TracksAvailableMarket [not null]
   Artists TrackProduceByArtist [not null]
   InPlaylist TracksOnPlaylist [not null]
@@ -72,41 +43,50 @@ Table Track {
   albumId Int
 }
 
-Table Album {
+Table TrackMeta {
   id Int [pk, increment]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   uid String [unique, not null]
+  durationMs Int [not null]
+}
+
+Table Album {
+  id Int [pk, increment]
   albumType String [not null]
   totalTracks Int [not null]
   name String [not null]
-  releaseDate DateTime [not null]
-  releaseDatePrecision String [not null]
-  albumGroup String [not null]
-  copyrights String
   imageUrl String
   availableMarkets AlbumAvailableMarket [not null]
   Artists AlbumProduceByArtist [not null]
   Tracks Track [not null]
 }
 
+Table AlbumMeta {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  uid String [not null]
+  releaseDate DateTime [not null]
+  releaseDatePrecision String [not null]
+  copyrights String
+}
+
 Table Playlist {
+  id Int [pk, increment]
+  name String [not null]
+  description String [not null]
+  public Boolean [not null]
+  primaryColor String
+  imagesId String
+  tracks TracksOnPlaylist [not null]
+}
+
+Table PlaylistMeta {
   id Int [pk, increment]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   uid String
-  collaborative Boolean [not null]
-  description String [not null]
-  name String [not null]
-  public Boolean [not null]
-  snapshotId String
-  primaryColor String
-  tracks TracksOnPlaylist [not null]
-  tracksIds Int [not null]
-  owner User [not null]
-  ownerId Int [not null]
-  imagesId String
-  followers PlaylistOnFollower [not null]
 }
 
 Table TracksOnPlaylist {
@@ -139,17 +119,6 @@ Table TrackProduceByArtist {
 
   indexes {
     (trackId, artistId) [pk]
-  }
-}
-
-Table PlaylistOnFollower {
-  playlistId Int [not null]
-  Playlist Playlist [not null]
-  userId Int [not null]
-  User User [not null]
-
-  indexes {
-    (playlistId, userId) [pk]
   }
 }
 
@@ -186,20 +155,7 @@ Table ArtistInGenres {
   }
 }
 
-Table ArtistOnFollowing {
-  Artist Artist [not null]
-  User User [not null]
-  artistId Int [not null]
-  userId Int [not null]
-
-  indexes {
-    (userId, artistId) [pk]
-  }
-}
-
 Ref: Track.albumId > Album.id
-
-Ref: Playlist.ownerId > User.id
 
 Ref: TracksOnPlaylist.playlistId > Playlist.id
 
@@ -213,10 +169,6 @@ Ref: TrackProduceByArtist.trackId > Track.id
 
 Ref: TrackProduceByArtist.artistId > Artist.id
 
-Ref: PlaylistOnFollower.playlistId > Playlist.id
-
-Ref: PlaylistOnFollower.userId > User.id
-
 Ref: AlbumProduceByArtist.albumId > Album.id
 
 Ref: AlbumProduceByArtist.artistId > Artist.id
@@ -228,7 +180,3 @@ Ref: AlbumAvailableMarket.tagId > Tag.id
 Ref: ArtistInGenres.artistId > Artist.id
 
 Ref: ArtistInGenres.tagId > Tag.id
-
-Ref: ArtistOnFollowing.artistId > Artist.id
-
-Ref: ArtistOnFollowing.userId > User.id
